@@ -1,0 +1,54 @@
+group 'com.topuzov'
+version '0.0.1'
+
+task wrapper(type: Wrapper) {
+  gradleVersion = '3.3'
+  distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
+}
+
+apply plugin: 'java'
+apply plugin: 'checkstyle'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+compileJava.options.encoding = 'UTF-8'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'org.testng', name: 'testng', version: '6.11'
+    compile group: 'io.appium', name: 'java-client', version: '5.0.0-BETA9'
+}
+
+build.dependsOn(check)
+test.dependsOn(check)
+check.dependsOn.remove(test)
+
+test {
+
+    systemProperty 'config', System.getProperty('config')
+
+    // enable TestNG support (default is JUnit)
+    useTestNG() {
+    }
+
+    // explicitly include or exclude tests
+    // include '**/*Test*.*'
+
+    // show standard out and standard error of the test JVM(s) on the console
+    testLogging.showStandardStreams = true
+
+    // set heap size for the test JVM(s)
+    minHeapSize = "128m"
+    maxHeapSize = "512m"
+
+    // set JVM arguments for the test JVM(s)
+    jvmArgs '-XX:MaxPermSize=256m'
+
+    testLogging {
+        // Show that tests are run in the command-line output
+        events 'started', 'passed', 'skipped', 'failed'
+    }
+}
