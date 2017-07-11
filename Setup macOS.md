@@ -1,6 +1,12 @@
-# General
+# Appium Setup Guide for macOS
 
-## Homebrew
+This document describes the setup you need in order to execute Appium tests for both Android and iOS from macOS host machine.
+
+## General
+
+This section applies for both Android and iOS.
+
+### Homebrew
 
 Install homebrew and update it
 ```
@@ -8,27 +14,37 @@ Install homebrew and update it
 brew update
 ```
 
-## Node
+### Node
 
 Install:
 ```
 brew install node@6
 ```
+Add it to PATH (update ~/.bash_profile)
+```
+echo 'export PATH="/usr/local/opt/node@6/bin:$PATH"' >> ~/.bash_profile
+```
+Re-load ~/.bash_profile
+```
+source ~/.bash_profile
+```
+
+Notes:
 
 Latest node@6 keg install `npm5` which is significantly different compared to `npm4` so I would recommend force install `npm4`:
 ```
 npm i -g npm@4
 ```
 
-## Appium Server
+### Appium Server
 
 ```
 npm i -g appium@1.6.5
 ```
 
-# Android Tools
+## Android Tools
 
-## Java
+### Java
 
 Install:
 ```
@@ -45,7 +61,7 @@ Re-laod `~/.bash_profile`:
 source ~/.bash_profile
 ```
 
-## Android SDK
+### Android SDK
 
 Install:
 ```
@@ -77,7 +93,7 @@ $ANDROID_HOME/tools/bin/sdkmanager "extras;android;m2repository"
 $ANDROID_HOME/tools/bin/sdkmanager "extras;google;m2repository"
 ```
 
-Install HAXM:
+[Install HAXM](https://software.intel.com/en-us/android/articles/intel-hardware-accelerated-execution-manager):
 ```
 $ANDROID_HOME/tools/bin/sdkmanager "extras;intel;Hardware_Accelerated_Execution_Manager"
 sudo $ANDROID_HOME/extras/intel/Hardware_Accelerated_Execution_Manager/silent_install.sh
@@ -107,7 +123,7 @@ echo no | $ANDROID_HOME/tools/bin/avdmanager create avd -n Emulator-Api25-Google
 echo no | $ANDROID_HOME/tools/bin/avdmanager create avd -n Emulator-Api26-Google -k "system-images;android-26;google_apis_playstore;x86" -b google_apis_playstore/x86 -c 12M -f
 ```
 
-(Optional) Build Edit Settings:
+(Optional) Bulk Edit Settings:
 ```
 find ~/.android/avd -type f -name 'config.ini' -exec bash -c 'echo $0 && echo "hw.lcd.density=240" | tee -a $0 && echo "skin.name=480x800" | tee -a $0 && echo "hw.gpu.enabled=yes"  | tee -a $0 && echo "hw.keyboard=no" | tee -a $0 && cat $0' {} \;
 ```
@@ -119,19 +135,19 @@ $ANDROID_HOME/tools/emulator -avd Emulator-Api19-Default
 
 Run UI Tree Inspector:
 ```
-TODO
+$ANDROID_HOME/tools/bin/uiautomatorviewer 
 ```
 
-# iOS Tools
+## iOS Tools
 
 Those examples might work on ElCapitan, but I highly recommend update to macOS Sierra.
 macOS Sierra is required to run Xcode 8.3+ (test on iOS 10.3+ devices and simulators).
 
-## Xcode
+### Xcode
 
 Get latest official Xcode and install it.
 
-## Appium Dependencies
+### Appium Dependencies
 
 Install dependencies of Appium and other helpful tools
 ```
