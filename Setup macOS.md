@@ -1,4 +1,4 @@
-# Appium Setup Guide for macOS
+# Setup Guide for macOS
 
 This document describes the setup you need in order to execute Appium tests for both Android and iOS from macOS host machine.
 
